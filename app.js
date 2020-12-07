@@ -1,9 +1,28 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const mysql = require('mysql');
 
 const app = express();
 const port = 8080;
+
+require('dotenv').config();
+
+const db = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    password: "akosigabo",
+    database: "sitepoint"
+});
+
+db.connect((err) => {
+    if(err){
+        throw err;
+    }
+    console.log('Connected to database!');
+});
+
+global.db = db;
 
 app.use(morgan('dev'));
 app.use(express.json());
