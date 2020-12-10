@@ -10,8 +10,8 @@
     <body>
         <h1><%= title %></h1>
         <ul>
-            <% for(var i = 0; i < authors.length; i++) { %>
-              <li><%= authors[i].name %> from <%= authors[i].city %></li>
+            <% for(var i = 0; i < locations.length; i++) { %>
+              <li><%= locations[i].neighbourhood_group %> at <%= locations[i].latitude %> latitude</li>
             <% } %>
           </ul>
     </body>
