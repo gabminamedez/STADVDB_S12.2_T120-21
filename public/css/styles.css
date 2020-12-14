@@ -1,4 +1,22 @@
+.container {
+    margin-bottom: 30px;
+}
+
 p {
     font-size: 16px;
     text-align: justify;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th { 
+    background-color:#f5f5f5;
+}
+
+th, td {
+    width: 100px;
+    border: 1px solid black;
+    padding: 5px;
 }

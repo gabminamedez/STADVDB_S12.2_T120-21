@@ -6,43 +6,42 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/query1', function(req, res, next) {
-    let query = "SELECT * FROM locations L JOIN neighbourhoods N ON (L.neighbourhood_id = N.neighbourhood_id);";
+    let query = "SELECT name, room_type, price FROM listings WHERE room_type = 'Private room' AND price <= 125 ORDER BY name;";
 
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type1', 
-            { title: 'Query 1', prompt: 'Get all listings (name, room_type, price) with a certain room type below or equal to a specified price.', result: result });
+        res.render('query1', { title: 'Query 1', listings: result });
     });
 });
 
 router.get('/query2', function(req, res, next) {
-    let query = "SELECT * FROM locations L JOIN neighbourhoods N ON (L.neighbourhood_id = N.neighbourhood_id);";
+    let query = "SELECT name, room_type, price FROM listings WHERE MONTH(last_review) = 09 AND minimum_nights >= 2 ORDER BY name;";
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type1', { title: 'Query 2', prompt: 'Get all listings (name, room_type, price) with a latest review in a certain month with minimum_nights at least a certain number.', result: result });
+        res.render('query2', { title: 'Query 2', listings: result });
     });
 });
 
 router.get('/query3', function(req, res, next) {
-    let query = "SELECT * FROM locations L JOIN neighbourhoods N ON (L.neighbourhood_id = N.neighbourhood_id);";
+    let query = "SELECT l.name, h.host_name, l.number_of_reviews FROM hosts as h JOIN listings as l ON h.host_id=l.host_id WHERE l.number_of_reviews >= 200 ORDER BY l.name;";
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type2', { title: 'Query 3', prompt: 'Get the hosts (name, host_name) that have listings between a specified price range.', result: result });
+        res.render('query3', { title: 'Query 3', listings: result });
     });
 });
 
 router.get('/query4', function(req, res, next) {
-    let query = "SELECT * FROM locations L JOIN neighbourhoods N ON (L.neighbourhood_id = N.neighbourhood_id);";
+    let query = "SELECT l.name, h.host_name, l.price FROM hosts as h JOIN listings as l ON h.host_id=l.host_id WHERE l.price BETWEEN 99 AND 201;";
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type2', { title: 'Query 4', prompt: 'Get the hosts (name, host_name) that have received a certain number of reviews.', result: result });
+        res.render('query4', { title: 'Query 4', listings: result });
     });
 });
 
@@ -52,7 +51,7 @@ router.get('/query5', function(req, res, next) {
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type3', { title: 'Query 5', prompt: 'Get the average availability of a certain room type listed in a certain neighbourhood group.', result: result });
+        res.render('query5', { title: 'Query 5', prompt: 'Get the average availability of a certain room type listed in a certain neighbourhood group.', result: result });
     });
 });
 
@@ -62,7 +61,7 @@ router.get('/query6', function(req, res, next) {
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type3', { title: 'Query 6', prompt: 'Get the minimum and maximum price of listings in a certain neighbourhood.', result: result });
+        res.render('query6', { title: 'Query 6', prompt: 'Get the minimum and maximum price of listings in a certain neighbourhood.', result: result });
     });
 });
 
@@ -72,7 +71,7 @@ router.get('/query7', function(req, res, next) {
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('type3', { title: 'Query 7', prompt: 'Get the average price of all listings by a certain host in a certain neighbourhood group.', result: result });
+        res.render('query7', { title: 'Query 7', prompt: 'Get the average price of all listings by a certain host in a certain neighbourhood group.', result: result });
     });
 });
 

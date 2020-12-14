@@ -1,0 +1,34 @@
+<html>
+
+    <head>
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <title><%= title %></title>
+    </head>
+
+    <body>
+        <div class="container">
+            <center>
+                <h1>Get all listings (name, room_type, price) with a certain room type below or equal to a specified price.</h1>
+                <hr>
+
+                <table class="table">
+                    <tr>
+                        <th><h3>name</h3></th>
+                        <th><h3>room_type</h3></th> 
+                        <th><h3>price</h3></th>
+                    </tr>
+                    <% for(var i = 0; i < listings.length; i++) { %>
+                        <tr>
+                            <td class="row"><%= listings[i].name %></td>
+                            <td><%= listings[i].room_type %></td> 
+                            <td><%= listings[i].price %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </center>
+        </div>
+    </body>
+
+</html>
