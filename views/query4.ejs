@@ -13,20 +13,39 @@
                 <h1>Get the listings, price and the corresponding host_name (name, host_name, price) that are between a specified price range.</h1>
                 <hr>
 
-                <table class="table">
-                    <tr>
-                        <th><h3>name</h3></th>
-                        <th><h3>host_name</h3></th>
-                        <th><h3>price</h3></th>
-                    </tr>
-                    <% for(var i = 0; i < listings.length; i++) { %>
+                <form method="post" action="/query4">
+                    <div class="form-group">
+                        <input required name="lower_price" type="number" class="form-control" placeholder="Lower price">
+                    </div>
+                    <div class="form-group">
+                        <input required name="higher_price" type="number" class="form-control" placeholder="Higher price">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <hr>
+
+                <% if(typeof results == 'undefined') { %>
+                    <h2 class="init">Configure the filters above and submit!</h2>
+                <% } else if (typeof results != 'undefined' && results.length != 0) { %>
+                    <h2>Listings with price between <%= lower_price %> and <%= higher_price %></h2>
+                    <table class="table">
                         <tr>
-                            <td class="row"><%= listings[i].name %></td> 
-                            <td><%= listings[i].host_name %></td>
-                            <td><%= listings[i].price %></td>
+                            <th><h3>name</h3></th>
+                            <th><h3>host_name</h3></th>
+                            <th><h3>price</h3></th>
                         </tr>
-                    <% } %>
-                </table>
+                        <% for(var i = 0; i < results.length; i++) { %>
+                            <tr>
+                                <td class="row"><%= results[i].name %></td> 
+                                <td><%= results[i].host_name %></td>
+                                <td><%= results[i].price %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                <% } else { %>
+                    <h2>Listings with price between <%= lower_price %> and <%= higher_price %></h2>
+                    <h3 class="err">No results found!</h3>
+                <% } %>
             </center>
         </div>
     </body>

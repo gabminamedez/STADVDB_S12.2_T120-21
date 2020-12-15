@@ -13,20 +13,53 @@
                 <h1>Get all listings (name, room_type, price) with a latest review in a certain month with minimum_nights at least a certain number.</h1>
                 <hr>
 
-                <table class="table">
-                    <tr>
-                        <th><h3>name</h3></th>
-                        <th><h3>room_type</h3></th> 
-                        <th><h3>price</h3></th>
-                    </tr>
-                    <% for(var i = 0; i < listings.length; i++) { %>
+                <form method="post" action="/query2">
+                    <div class="form-group">
+                        <select required name="month" class="form-control">
+                            <option value="" selected disabled hidden>Choose a month</option>
+                            <option value="01">01</option>
+                            <option value="02">02</option>
+                            <option value="03">03</option>
+                            <option value="04">04</option>
+                            <option value="05">05</option>
+                            <option value="06">06</option>
+                            <option value="07">07</option>
+                            <option value="08">08</option>
+                            <option value="09">09</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input required name="minimum_nights" type="number" class="form-control" placeholder="Add minimum_nights">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <hr>
+
+                <% if(typeof results == 'undefined') { %>
+                    <h2 class="init">Configure the filters above and submit!</h2>
+                <% } else if (typeof results != 'undefined' && results.length != 0) { %>
+                    <h2>Listings reviewed in month = <%= month %> and minimum nights >= <%= minimum_nights %></h2>
+                    <table class="table">
                         <tr>
-                            <td class="row"><%= listings[i].name %></td>
-                            <td><%= listings[i].room_type %></td> 
-                            <td><%= listings[i].price %></td>
+                            <th><h3>name</h3></th>
+                            <th><h3>room_type</h3></th> 
+                            <th><h3>price</h3></th>
                         </tr>
-                    <% } %>
-                </table>
+                        <% for(var i = 0; i < results.length; i++) { %>
+                            <tr>
+                                <td class="row"><%= results[i].name %></td>
+                                <td><%= results[i].room_type %></td> 
+                                <td><%= results[i].price %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                <% } else { %>
+                    <h2>Listings reviewed in month = <%= month %> and minimum nights >= <%= minimum_nights %></h2>
+                    <h3 class="err">No results found!</h3>
+                <% } %>
             </center>
         </div>
     </body>

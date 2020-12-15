@@ -9,12 +9,25 @@
 
     <body>
         <div class="container">
-            <h1><%= prompt %></h1>
-            <ul>
-                <% for(var i = 0; i < result.length; i++) { %>
-                <li><%= result[i].neighbourhood_group %> at <%= result[i].latitude %> latitude</li>
-                <% } %>
-            </ul>
+            <center>
+                <h1>Get the average price of all listings by a certain host in neighbourhood groups Manhattan and Brooklyn.</h1>
+                <hr>
+
+                <table class="table">
+                    <tr>
+                        <th><h3>host_name</h3></th>
+                        <th><h3>neighbourhood_group</h3></th>
+                        <th><h3>avg_price</h3></th>
+                    </tr>
+                    <% for(var i = 0; i < results.length; i++) { %>
+                        <tr>
+                            <td class="row"><%= results[i].host_name %></td>
+                            <td><%= results[i].neighbourhood_group %></td>
+                            <td><%= results[i].avg_price %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </center>
         </div>
     </body>
 

@@ -7,6 +7,14 @@ p {
     text-align: justify;
 }
 
+.init {
+    color: green;
+}
+
+.err {
+    color: red;
+}
+
 table {
     border-collapse: collapse;
 }
