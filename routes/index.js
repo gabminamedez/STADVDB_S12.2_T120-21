@@ -90,48 +90,75 @@ router.get('/query5', function(req, res, next) {
 });
 
 router.post('/query5', function(req, res, next) {
-    let query = `SELECT li.room_type, AVG(li.availability_365) as avg_availability, n.neighbourhood_group
+    var neighbourhood_group = req.body.neighbourhood_group;
+
+    let query = `SELECT li.room_type, AVG(li.availability_365) as avg_availability
                  FROM listings as li 
                  INNER JOIN locations as loc ON li.location_id = loc.location_id 
                  INNER JOIN neighbourhoods as n ON loc.neighbourhood_id = n.neighbourhood_id
-                 WHERE li.room_type != 'Shared room' AND n.neighbourhood_group = 'Brooklyn'
+                 WHERE n.neighbourhood_group = '${neighbourhood_group}'
                  GROUP BY li.room_type;`;
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('query5', { title: 'Query 5', results: result });
+        res.render('query5', { title: 'Query 5', results: result, neighbourhood_group: neighbourhood_group });
     });
 });
 
 router.get('/query6', function(req, res, next) {
+    let query = `SELECT DISTINCT neighbourhood
+                 FROM neighbourhoods;`;
+
+    db.query(query, (err, result) => {
+        if(err) throw err;
+
+        res.render('query6', { title: 'Query 6', choices: result });
+    });
+});
+
+router.post('/query6', function(req, res, next) {
+    let neighbourhood = req.body.neighbourhood;
+
     let query = `SELECT n.neighbourhood, MIN(price) AS 'min_price', MAX(price) AS 'max_price'
                  FROM listings li
                  JOIN locations AS loc ON li.location_id = loc.location_id
                  JOIN neighbourhoods AS n ON loc.neighbourhood_id = n.neighbourhood_id
-                 WHERE n.neighbourhood = 'Bedford-Stuyvesant'
+                 WHERE n.neighbourhood = '${neighbourhood}'
                  GROUP BY n.neighbourhood;`;
+
+    let query1 = `SELECT DISTINCT neighbourhood
+                 FROM neighbourhoods;`;
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('query6', { title: 'Query 6', results: result });
+        db.query(query1, (err, result1) => {
+            if(err) throw err;
+    
+            res.render('query6', { title: 'Query 6', choices: result1, results: result, neighbourhood: neighbourhood });
+        });
     });
 });
 
 router.get('/query7', function(req, res, next) {
-    let query = `SELECT h.host_name, neighbourhood_group, AVG(li.price) AS 'avg_price'
+    res.render('query7', { title: 'Query 7' });
+});
+
+router.post('/query7', function(req, res, next) {
+    let host_name = req.body.host_name;
+    let query = `SELECT h.host_name, n.neighbourhood_group, AVG(li.price) AS 'avg_price'
                  FROM listings li 
                  JOIN locations AS loc ON li.location_id = loc.location_id 
                  JOIN neighbourhoods AS n ON loc.neighbourhood_id = n.neighbourhood_id 
                  JOIN hosts AS h ON li.host_id = h.host_id 
-                 WHERE (n.neighbourhood_group = 'Brooklyn' AND h.host_name ='The Box House Hotel') OR (n.neighbourhood_group = 'Manhattan' AND h.host_name='The Box House Hotel') 
-                 GROUP BY h.host_name;`;
+                 WHERE h.host_name = '${host_name}'
+                 GROUP BY n.neighbourhood_group;`;
     
     db.query(query, (err, result) => {
         if(err) throw err;
 
-        res.render('query7', { title: 'Query 7', results: result });
+        res.render('query7', { title: 'Query 7', results: result, host_name: host_name });
     });
 });
 
