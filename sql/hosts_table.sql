@@ -1,3 +1,9 @@
+SET SQL_SAFE_UPDATES = 0;
+SET @@SESSION.sql_mode='ALLOW_INVALID_DATES';
+
+UPDATE listings
+SET last_review = str_to_date( last_review, '%Y-%m-%d' );
+
 CREATE TABLE hosts (
 	host_id INT PRIMARY KEY,
 	host_name VARCHAR(255)
